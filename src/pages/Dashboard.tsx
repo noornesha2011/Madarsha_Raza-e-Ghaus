@@ -7,7 +7,7 @@ import DonationSummary from "../components/dashboard/DonationSummary";
 import DonationChart from "../components/dashboard/DonationChart";
 import FinancialChart from "../components/dashboard/FinancialChart";
 import BalanceCard from "../components/dashboard/BlanceCard";
-import DonorProfile from "../components/dashboard/DonorProfile";
+// import DonorProfile from "../components/dashboard/DonorProfile";
 import Button from "../components/ui/Button";
 import Loading from "../components/ui/Loading";
 
