@@ -3,7 +3,7 @@ import type { CurrentMonthDonation } from "../../types/dashboard";
 import {
   formatCurrency,
   monthNames,
-} from "../../uttils/formatter";
+} from "../../utills/formatter";
 
 interface Props {
   data: CurrentMonthDonation;

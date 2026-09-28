@@ -8,7 +8,7 @@ const links = [
   { to: "/", label: "Home" },
   { to: "/announcements",label: "Announcements" },
   { to: "/payment/receipt-status", label: "Receipt Status" },
-  { to: "/commite/members", label: "Our Members" },
+  { to: "/commite/members", label: "Members" },
   
 ];
 
@@ -26,6 +26,8 @@ export default function Navbar() {
       { to: "/", label: "Home" },
       { to: "/dashboard", label: "Dashboard" },
       { to: "/announcements", label: "Announcements" },
+      { to: "/payment/receipt-status", label: "Receipt Status" },
+      { to: "/commite/members", label: "Members" },
     ]
     : links;
 

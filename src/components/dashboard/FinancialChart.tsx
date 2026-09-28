@@ -10,7 +10,7 @@ import {
 } from "recharts";
 
 import type { MadarshaSummary } from "../../types/dashboard";
-import { formatCurrency } from "../../uttils/formatter";
+import { formatCurrency } from "../../utills/formatter";
 
 interface Props {
   data: MadarshaSummary;

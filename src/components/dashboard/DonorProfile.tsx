@@ -1,6 +1,6 @@
 import { FaCalendarAlt, FaEnvelope, FaPhone, FaUser } from "react-icons/fa";
 import type { DonorProfileResponse } from "../../types/dashboard";
-import { formatCurrency, formatDate } from "../../uttils/formatter";
+import { formatCurrency, formatDate } from "../../utills/formatter";
 
 export default function DonorProfile({ data }: { data: DonorProfileResponse }) {
   const contactDetails = [

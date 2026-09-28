@@ -5,7 +5,7 @@ import {
 } from "react-icons/fa";
 
 import type { DonorSummary } from "../../types/dashboard";
-import { formatCurrency } from "../../uttils/formatter";
+import { formatCurrency } from "../../utills/formatter";
 
 interface Props {
   data: DonorSummary;
