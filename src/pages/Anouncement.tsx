@@ -1,225 +1,294 @@
-import { FaBullhorn, FaCalendarAlt, FaMosque, FaThumbtack } from "react-icons/fa";
 
-interface Announcement {
-  id: number;
-  title: string;
-  description: string;
-  date: string; // "12 Sep 2026"
-  category: "General" | "Event" | "Donation" | "Important";
-}
+import { useQuery } from "@tanstack/react-query";
+import { getAnnouncements } from "../api/announcementApi";
 
-const announcements: Announcement[] = [
-  {
-    id: 1,
-    title: "Monthly Donation Collection",
-    description:
-      "Monthly donations for Madarsa Raza-e-Gaus can now be submitted securely through our online donation portal.",
-    date: "12 Sep 2026",
-    category: "Donation",
-  },
-  {
-    id: 2,
-    title: "Milad-un-Nabi ﷺ Program",
-    description:
-      "A special Milad-un-Nabi ﷺ program will be organized at the Madarsa. All community members are warmly invited.",
-    date: "20 Sep 2026",
-    category: "Event",
-  },
-  {
-    id: 3,
-    title: "Madarsa Development Fund",
-    description:
-      "The Madarsa development fund is open for contributions to improve educational facilities and infrastructure.",
-    date: "10 Sep 2026",
-    category: "Donation",
-  },
-  {
-    id: 4,
-    title: "Important Notice for Donors",
-    description:
-      "Donors are requested to keep their registered mobile number and email address updated on their profile.",
-    date: "05 Sep 2026",
-    category: "Important",
-  },
-];
+const Announcements = () => {
+  const {
+    data,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["Announcements"],
+    queryFn: getAnnouncements,
+  });
 
-const categoryStyles: Record<Announcement["category"], string> = {
-  General: "bg-[#EFE6D3] text-[#6B5A3A]",
-  Event: "bg-[#E3EEEA] text-[#1F4A41]",
-  Donation: "bg-[#F4E9D6] text-[#8A5A15]",
-  Important: "bg-[#F3E3DA] text-[#8C3B23]",
-};
+  const announcements = Array.isArray(data) ? data : [];
 
-function DateStub({ date }: { date: string }) {
-  const [day, month, year] = date.split(" ");
-  return (
-    <div className="flex shrink-0 flex-col items-center justify-center px-1">
-      <span className="font-serif text-2xl font-semibold leading-none text-[#163832]">
-        {day}
-      </span>
-      <span className="mt-1 text-[11px] text-[#8C8571]">
-        {month} {year}
-      </span>
-    </div>
-  );
-}
+  // Get announcement date
+  const getAnnouncementDate = (announcement: any) => {
+    // Change this to created_at if that is what your API returns
+    return announcement.created_at ?? announcement.created_At;
+  };
 
-export default function Announcements() {
-  const [featured, ...rest] = announcements;
+  // Check whether announcement is within the last 48 hours
+  const isNewAnnouncement = (createdAt: string) => {
+    if (!createdAt) return false;
 
-  return (
-    <div className="min-h-screen bg-[#f6efdc]">
-      {/* ================= HEADER ================= */}
-      <header className="relative overflow-hidden bg-[#163832]">
-        {/* Geometric lattice motif, in place of a generic dot grid */}
-        <svg
-          className="absolute inset-0 h-full w-full opacity-[0.08]"
-          preserveAspectRatio="xMidYMid slice"
-        >
-          <defs>
-            <pattern
-              id="lattice"
-              width="42"
-              height="42"
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d="M21 0 L42 21 L21 42 L0 21 Z"
-                fill="none"
-                stroke="#D9C79A"
-                strokeWidth="1"
+    const createdTime = new Date(createdAt).getTime();
+
+    if (Number.isNaN(createdTime)) return false;
+
+    const currentTime = Date.now();
+    const fortyEightHours = 48 * 60 * 60 * 1000;
+
+    return (
+      currentTime - createdTime <= fortyEightHours &&
+      currentTime >= createdTime
+    );
+  };
+
+  // Format date
+  const formatDate = (createdAt: string) => {
+    if (!createdAt) return "Date unavailable";
+
+    const date = new Date(createdAt);
+
+    if (Number.isNaN(date.getTime())) {
+      return "Date unavailable";
+    }
+
+    return date.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  // Format time
+  const formatTime = (createdAt: string) => {
+    if (!createdAt) return "";
+
+    const date = new Date(createdAt);
+
+    if (Number.isNaN(date.getTime())) {
+      return "";
+    }
+
+    return date.toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
+  if (isLoading) {
+    return (
+      <section className="min-h-[60vh] bg-[#f7faf8] px-4 py-12">
+        <div className="mx-auto max-w-6xl">
+          <div className="space-y-4">
+            {[1, 2, 3, 4].map((item) => (
+              <div
+                key={item}
+                className="h-24 animate-pulse rounded-2xl bg-white shadow-sm"
               />
-              <circle cx="21" cy="21" r="3" fill="none" stroke="#D9C79A" strokeWidth="1" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#lattice)" />
-        </svg>
-
-        <div className="relative mx-auto max-w-6xl px-5 py-12 sm:px-6 lg:px-8">
-          <div className="flex items-start justify-between gap-6">
-            <div>
-              <div className="flex items-center gap-2 text-xs text-[#B9CFC7]">
-                <span>Madarsa Raza-e-Gaus</span>
-                <span className="text-[#4F746A]">/</span>
-                <span className="text-[#E7DDC3]">Announcements</span>
-              </div>
-
-              <h1 className="mt-3 font-serif text-4xl font-semibold text-[#FAF6EC] sm:text-5xl">
-                Announcements
-              </h1>
-
-              <p className="mt-3 max-w-lg text-sm leading-6 text-[#C7D9D2] sm:text-base">
-                Notices, programs, and donation updates for the Madarsa
-                community, kept in one place.
-              </p>
-            </div>
-
-            <div className="hidden shrink-0 border border-[#B08A45]/50 p-3 sm:block">
-              <FaMosque size={22} className="text-[#D9B876]" />
-            </div>
+            ))}
           </div>
         </div>
-      </header>
+      </section>
+    );
+  }
 
-      {/* ================= MAIN ================= */}
-      <main className="mx-auto max-w-4xl px-5 py-14 sm:px-6 lg:px-8">
-        <div className="mb-10 flex items-end justify-between border-b border-[#E1D6BE] pb-4">
-          <h2 className="font-serif text-2xl font-semibold text-[#26251F]">
-            What&apos;s happening
+  if (isError) {
+    return (
+      <section className="min-h-[60vh] bg-[#f7faf8] px-4 py-12">
+        <div className="mx-auto max-w-xl rounded-3xl bg-white p-8 text-center shadow-lg">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-50 text-2xl">
+            ⚠️
+          </div>
+
+          <h2 className="mt-5 text-xl font-bold text-gray-900">
+            Unable to load announcements
           </h2>
-          <span className="text-sm text-[#8C8571]">
-            {announcements.length} announcements
-          </span>
-        </div>
 
-        {/* ================= PINNED NOTICE ================= */}
-        <section className="relative mb-12 border border-[#D9C79A] bg-[#F1EAD9] px-6 py-7 sm:px-8">
-          <div className="absolute inset-x-0 top-0 h-[3px] bg-[#A9793B]" />
-
-          <div className="flex items-center gap-2 text-xs font-medium text-[#8A5A15]">
-            <FaThumbtack size={11} />
-            Pinned notice
-          </div>
-
-          <h3 className="mt-3 font-serif text-2xl font-semibold text-[#26251F] sm:text-[1.7rem]">
-            {featured.title}
-          </h3>
-
-          <p className="mt-3 max-w-2xl text-[15px] leading-7 text-[#4B4636]">
-            {featured.description}
-          </p>
-
-          <div className="mt-5 flex flex-wrap items-center gap-4">
-            <span
-              className={`px-2.5 py-1 text-xs font-medium ${categoryStyles[featured.category]}`}
-            >
-              {featured.category}
-            </span>
-            <span className="flex items-center gap-1.5 text-xs text-[#8C8571]">
-              <FaCalendarAlt size={11} />
-              {featured.date}
-            </span>
-            <a
-              href="#"
-              className="ml-auto text-sm font-medium text-[#163832] underline decoration-[#A9793B]/60 underline-offset-4 hover:decoration-[#A9793B]"
-            >
-              View details
-            </a>
-          </div>
-        </section>
-
-        {/* ================= NOTICE LIST ================= */}
-        <div className="divide-y divide-[#E1D6BE] border-t border-[#E1D6BE]">
-          {rest.map((announcement) => (
-            <article
-              key={announcement.id}
-              className="flex gap-5 py-6 sm:gap-7"
-            >
-              <DateStub date={announcement.date} />
-              <div className="w-px shrink-0 bg-[#E1D6BE]" />
-
-              <div className="min-w-0 flex-1">
-                <span
-                  className={`inline-block px-2.5 py-1 text-[11px] font-medium ${categoryStyles[announcement.category]}`}
-                >
-                  {announcement.category}
-                </span>
-
-                <h3 className="mt-2 font-serif text-lg font-semibold text-[#26251F]">
-                  {announcement.title}
-                </h3>
-
-                <p className="mt-1.5 max-w-2xl text-sm leading-6 text-[#5B5646]">
-                  {announcement.description}
-                </p>
-
-                <a
-                  href="#"
-                  className="mt-3 inline-block text-sm font-medium text-[#163832] underline decoration-[#A9793B]/50 underline-offset-4 hover:decoration-[#A9793B]"
-                >
-                  Read more
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
-      </main>
-
-      {/* ================= FOOTER PANEL ================= */}
-      <section className="border-t border-[#2F5750] bg-[#163832] py-12">
-        <div className="mx-auto flex max-w-2xl flex-col items-center px-5 text-center">
-          <div className="border border-[#B08A45]/50 p-3">
-            <FaBullhorn size={18} className="text-[#D9B876]" />
-          </div>
-          <h3 className="mt-4 font-serif text-xl font-semibold text-[#FAF6EC]">
-            Stay connected with the Madarsa
-          </h3>
-          <p className="mt-2 max-w-md text-sm leading-6 text-[#C7D9D2]">
-            Check this page for notices, programs, donation updates, and
-            community activities as they are posted.
+          <p className="mt-2 text-sm text-gray-500">
+            Please try again later.
           </p>
         </div>
       </section>
-    </div>
+    );
+  }
+
+  if (announcements.length === 0) {
+    return (
+      <section className="min-h-[60vh] bg-[#f7faf8] px-4 py-12">
+        <div className="mx-auto max-w-xl rounded-3xl bg-white p-10 text-center shadow-sm">
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#163832] text-2xl text-white">
+            📢
+          </div>
+
+          <h2 className="mt-5 text-xl font-bold text-[#163832]">
+            No Announcements
+          </h2>
+
+          <p className="mt-2 text-sm text-gray-500">
+            There are no announcements available at the moment.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="relative overflow-hidden bg-[#f7faf8] px-4 py-12 sm:px-6 lg:px-8">
+
+      {/* Background decoration */}
+      <div className="pointer-events-none absolute -left-32 top-20 h-72 w-72 rounded-full bg-[#dcebe6]/60 blur-3xl" />
+
+      <div className="pointer-events-none absolute -right-32 top-80 h-72 w-72 rounded-full bg-[#e7dfc7]/40 blur-3xl" />
+
+      <div className="relative mx-auto max-w-6xl">
+
+        {/* Header */}
+        <header className="mb-10 text-center">
+
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#cbded7] bg-white px-4 py-2 text-xs font-semibold tracking-wide text-[#163832] shadow-sm">
+            <span className="h-2 w-2 animate-pulse rounded-full bg-[#c69c45]" />
+            LATEST UPDATES
+          </div>
+
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#163832] text-2xl text-white shadow-xl">
+            📢
+          </div>
+
+          <h1 className="mt-5 text-3xl font-bold tracking-tight text-[#163832] sm:text-4xl">
+            Announcements
+          </h1>
+
+          <div className="mx-auto mt-3 h-1 w-14 rounded-full bg-[#c69c45]" />
+
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-gray-500 sm:text-base">
+            Stay informed about the latest news, important notices,
+            events and updates from Madarsa Raza-e-Gaus.
+          </p>
+        </header>
+
+        {/* Count */}
+        <div className="mb-6 flex items-center justify-between">
+          <p className="text-sm text-gray-500">
+            <span className="font-bold text-[#163832]">
+              {announcements.length}
+            </span>{" "}
+            {announcements.length === 1
+              ? "announcement"
+              : "announcements"}
+          </p>
+
+          <div className="flex items-center gap-2 text-xs text-gray-400">
+            <span className="h-2 w-2 rounded-full bg-[#c69c45]" />
+            Latest updates
+          </div>
+        </div>
+
+        {/* Announcement list */}
+        <div className="space-y-4">
+
+          {announcements.map((announcement: any, index: number) => {
+
+            const createdAt = getAnnouncementDate(announcement);
+            const isNew = isNewAnnouncement(createdAt);
+
+            return (
+              <article
+                key={announcement.id}
+                className="group relative overflow-hidden rounded-2xl border border-[#dfeae6] bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#bfd5cd] hover:shadow-lg"
+              >
+
+                {/* Left accent */}
+                <div className="absolute left-0 top-0 h-full w-1 bg-[#163832]" />
+
+                <div className="flex min-h-[90px] items-center gap-4 px-5 py-4 sm:px-6">
+
+                  {/* Number */}
+                  <div className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#163832]/10 text-sm font-bold text-[#163832] sm:flex">
+                    {String(index + 1).padStart(2, "0")}
+                  </div>
+
+                  {/* Icon */}
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#163832] text-base text-white shadow-sm">
+                    📌
+                  </div>
+
+                  {/* Content */}
+                  <div className="min-w-0 flex-1">
+
+                    <div className="flex flex-wrap items-center gap-2">
+
+                      <h2 className="truncate text-base font-bold text-gray-900 transition-colors group-hover:text-[#163832] sm:text-lg">
+                        {announcement.title}
+                      </h2>
+
+                      {isNew && (
+                        <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[#c69c45] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
+                          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
+                          NEW
+                        </span>
+                      )}
+
+                    </div>
+
+                    <p className="mt-1 line-clamp-1 text-sm text-gray-500">
+                      {announcement.message}
+                    </p>
+
+                  </div>
+
+                  {/* Desktop date */}
+                  <div className="hidden shrink-0 text-right md:block">
+
+                    <p className="text-xs font-semibold text-[#163832]">
+                      {formatDate(createdAt)}
+                    </p>
+
+                    {formatTime(createdAt) && (
+                      <p className="mt-1 text-[11px] text-gray-400">
+                        {formatTime(createdAt)}
+                      </p>
+                    )}
+
+                  </div>
+
+                  {/* Arrow */}
+                  <div className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-50 text-gray-400 transition-all duration-300 group-hover:bg-[#163832] group-hover:text-white sm:flex">
+                    →
+                  </div>
+
+                </div>
+
+                {/* Mobile date */}
+                <div className="border-t border-gray-100 px-5 py-2.5 sm:px-6 md:hidden">
+                  <p className="text-[11px] text-gray-400">
+                    📅 {formatDate(createdAt)}
+
+                    {formatTime(createdAt) && (
+                      <> • {formatTime(createdAt)}</>
+                    )}
+                  </p>
+                </div>
+
+              </article>
+            );
+          })}
+
+        </div>
+
+        {/* Footer */}
+        <div className="mt-10 text-center">
+          <div className="mx-auto flex max-w-xl items-center gap-4">
+            <div className="h-px flex-1 bg-[#dce6e2]" />
+
+            <span className="text-[#c69c45]">✦</span>
+
+            <div className="h-px flex-1 bg-[#dce6e2]" />
+          </div>
+
+          <p className="mt-4 text-[10px] font-medium tracking-[0.15em] text-gray-400 sm:text-xs">
+            MADARSA RAZA-E-GAUS • BISHUNPURA, GOPALGANJ, BIHAR
+          </p>
+        </div>
+
+      </div>
+    </section>
   );
-}
+};
+
+export default Announcements;
+

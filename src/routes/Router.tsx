@@ -26,7 +26,7 @@ const Router = createBrowserRouter([
       { path: "/dashboard", element: <RequireAuth>{page(Dashboard)}</RequireAuth> },
       { path: "/login", element: page(Login) },
       { path: "/donate", element: <RequireAuth>{page(Donate)}</RequireAuth> },
-      { path: "/announcements", element: <Announcements/> },
+      { path: "/a", element: <Announcements/> },
       {path: "payment/receipt-status", element: <ReceiptStatus/>},
       // { path: "/anouncement", element: <Navigate to="/announcements" replace /> },
       // { path: "/payment/receipt-status", element: page(ReceiptStatus) },
