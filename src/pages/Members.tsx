@@ -33,7 +33,9 @@ const Members = () => {
 
         setMembers(data.length > 0 ? data : MOCK_MEMBERS);
       } catch (err) {
+        setError("field")
         console.error("Failed to fetch members:", err);
+        
 
         // Temporary fallback for UI development
         setMembers(MOCK_MEMBERS);
