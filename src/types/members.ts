@@ -1,8 +1,8 @@
 export interface Member {
   id: number;
   name: string;
-  role: string;
-  village: string;
-  phone?: string;
+  designation: string;
+  address: string;
+  mobile?: string;
   image?: string;
 }

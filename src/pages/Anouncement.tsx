@@ -1,6 +1,23 @@
 
 import { useQuery } from "@tanstack/react-query";
+import {
+  FiAlertCircle,
+  FiBell,
+  FiCalendar,
+  FiChevronRight,
+  FiClock,
+  FiFileText,
+  FiInfo,
+} from "react-icons/fi";
 import { getAnnouncements } from "../api/announcementApi";
+
+interface Announcement {
+  id: number | string;
+  title: string;
+  message: string;
+  created_at?: string;
+  created_At?: string;
+}
 
 const Announcements = () => {
   const {
@@ -12,15 +29,16 @@ const Announcements = () => {
     queryFn: getAnnouncements,
   });
 
-  const announcements = Array.isArray(data) ? data : [];
+  const announcements: Announcement[] = Array.isArray(data) ? data : [];
 
-  // Get announcement date
-  const getAnnouncementDate = (announcement: any) => {
-    // Change this to created_at if that is what your API returns
-    return announcement.created_at ?? announcement.created_At;
+  // --------------------------------------------------
+  // Date helpers
+  // --------------------------------------------------
+
+  const getAnnouncementDate = (announcement: Announcement) => {
+    return announcement.created_at ?? announcement.created_At ?? "";
   };
 
-  // Check whether announcement is within the last 48 hours
   const isNewAnnouncement = (createdAt: string) => {
     if (!createdAt) return false;
 
@@ -37,7 +55,6 @@ const Announcements = () => {
     );
   };
 
-  // Format date
   const formatDate = (createdAt: string) => {
     if (!createdAt) return "Date unavailable";
 
@@ -54,7 +71,6 @@ const Announcements = () => {
     });
   };
 
-  // Format time
   const formatTime = (createdAt: string) => {
     if (!createdAt) return "";
 
@@ -70,16 +86,39 @@ const Announcements = () => {
     });
   };
 
+  // --------------------------------------------------
+  // Loading
+  // --------------------------------------------------
+
   if (isLoading) {
     return (
-      <section className="min-h-[60vh] bg-[#f7faf8] px-4 py-12">
-        <div className="mx-auto max-w-6xl">
+      <section className="min-h-[70vh] bg-[#f8faf9] px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl">
+
+          {/* Header skeleton */}
+          <div className="mb-10 flex flex-col items-center">
+            <div className="h-7 w-32 animate-pulse rounded-full bg-gray-200" />
+            <div className="mt-5 h-16 w-16 animate-pulse rounded-2xl bg-gray-200" />
+            <div className="mt-5 h-8 w-56 animate-pulse rounded-lg bg-gray-200" />
+            <div className="mt-4 h-4 w-80 max-w-full animate-pulse rounded bg-gray-200" />
+          </div>
+
+          {/* Announcement skeletons */}
           <div className="space-y-4">
             {[1, 2, 3, 4].map((item) => (
               <div
                 key={item}
-                className="h-24 animate-pulse rounded-2xl bg-white shadow-sm"
-              />
+                className="h-24 animate-pulse rounded-2xl border border-gray-100 bg-white shadow-sm"
+              >
+                <div className="flex h-full items-center gap-4 px-6">
+                  <div className="h-10 w-10 rounded-xl bg-gray-200" />
+                  <div className="flex-1">
+                    <div className="h-4 w-2/3 rounded bg-gray-200" />
+                    <div className="mt-3 h-3 w-4/5 rounded bg-gray-100" />
+                  </div>
+                  <div className="hidden h-8 w-24 rounded bg-gray-100 sm:block" />
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -87,101 +126,165 @@ const Announcements = () => {
     );
   }
 
+  // --------------------------------------------------
+  // Error
+  // --------------------------------------------------
+
   if (isError) {
     return (
-      <section className="min-h-[60vh] bg-[#f7faf8] px-4 py-12">
-        <div className="mx-auto max-w-xl rounded-3xl bg-white p-8 text-center shadow-lg">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-50 text-2xl">
-            ⚠️
+      <section className="relative min-h-[70vh] overflow-hidden bg-[#f8faf9] px-4 py-16 sm:px-6">
+
+        <div className="pointer-events-none absolute -left-32 top-20 h-72 w-72 rounded-full bg-emerald-100/60 blur-3xl" />
+        <div className="pointer-events-none absolute -right-32 bottom-10 h-72 w-72 rounded-full bg-amber-100/40 blur-3xl" />
+
+        <div className="relative mx-auto max-w-xl">
+          <div className="rounded-[28px] border border-red-100 bg-white p-8 text-center shadow-xl shadow-red-900/5 sm:p-10">
+
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-50 text-red-500">
+              <FiAlertCircle size={30} />
+            </div>
+
+            <h2 className="mt-6 text-xl font-bold text-slate-900">
+              Unable to load announcements
+            </h2>
+
+            <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-slate-500">
+              We couldn't retrieve the latest announcements right now.
+              Please try again later.
+            </p>
           </div>
-
-          <h2 className="mt-5 text-xl font-bold text-gray-900">
-            Unable to load announcements
-          </h2>
-
-          <p className="mt-2 text-sm text-gray-500">
-            Please try again later.
-          </p>
         </div>
       </section>
     );
   }
+
+  // --------------------------------------------------
+  // Empty state
+  // --------------------------------------------------
 
   if (announcements.length === 0) {
     return (
-      <section className="min-h-[60vh] bg-[#f7faf8] px-4 py-12">
-        <div className="mx-auto max-w-xl rounded-3xl bg-white p-10 text-center shadow-sm">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#163832] text-2xl text-white">
-            📢
+      <section className="relative min-h-[70vh] overflow-hidden bg-[#f8faf9] px-4 py-16 sm:px-6">
+
+        <div className="pointer-events-none absolute -left-32 top-20 h-72 w-72 rounded-full bg-emerald-100/60 blur-3xl" />
+        <div className="pointer-events-none absolute -right-32 bottom-10 h-72 w-72 rounded-full bg-amber-100/40 blur-3xl" />
+
+        <div className="relative mx-auto max-w-xl">
+          <div className="rounded-[28px] border border-[#e2ebe7] bg-white p-10 text-center shadow-xl shadow-emerald-900/5">
+
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#064e3b] text-white shadow-lg shadow-emerald-900/20">
+              <FiBell size={28} />
+            </div>
+
+            <h2 className="mt-6 text-xl font-bold text-[#064e3b]">
+              No Announcements
+            </h2>
+
+            <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-slate-500">
+              There are no announcements available at the moment.
+              Please check back later for new updates.
+            </p>
+
+            <div className="mx-auto mt-6 h-px w-20 bg-[#d4af37]" />
           </div>
-
-          <h2 className="mt-5 text-xl font-bold text-[#163832]">
-            No Announcements
-          </h2>
-
-          <p className="mt-2 text-sm text-gray-500">
-            There are no announcements available at the moment.
-          </p>
         </div>
       </section>
     );
   }
 
+  // --------------------------------------------------
+  // Main UI
+  // --------------------------------------------------
+
   return (
-    <section className="relative overflow-hidden bg-[#f7faf8] px-4 py-12 sm:px-6 lg:px-8">
+    <section className="relative min-h-screen overflow-hidden bg-[#f8faf9] px-4 py-12 sm:px-6 lg:px-8">
 
       {/* Background decoration */}
-      <div className="pointer-events-none absolute -left-32 top-20 h-72 w-72 rounded-full bg-[#dcebe6]/60 blur-3xl" />
+      <div className="pointer-events-none absolute -left-40 top-10 h-96 w-96 rounded-full bg-emerald-100/50 blur-3xl" />
 
-      <div className="pointer-events-none absolute -right-32 top-80 h-72 w-72 rounded-full bg-[#e7dfc7]/40 blur-3xl" />
+      <div className="pointer-events-none absolute -right-40 top-[35%] h-96 w-96 rounded-full bg-amber-100/40 blur-3xl" />
 
-      <div className="relative mx-auto max-w-6xl">
+      <div className="relative mx-auto max-w-5xl">
 
-        {/* Header */}
+        {/* =====================================================
+            HEADER
+        ====================================================== */}
+
         <header className="mb-10 text-center">
 
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#cbded7] bg-white px-4 py-2 text-xs font-semibold tracking-wide text-[#163832] shadow-sm">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-[#c69c45]" />
+          {/* Status badge */}
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#cfe1da] bg-white px-4 py-2 text-xs font-bold tracking-[0.12em] text-[#064e3b] shadow-sm">
+
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#d4af37] opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#d4af37]" />
+            </span>
+
             LATEST UPDATES
           </div>
 
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#163832] text-2xl text-white shadow-xl">
-            📢
+          {/* Main icon */}
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-[20px] bg-[#064e3b] text-white shadow-xl shadow-emerald-900/20">
+
+            <FiBell size={28} strokeWidth={1.8} />
           </div>
 
-          <h1 className="mt-5 text-3xl font-bold tracking-tight text-[#163832] sm:text-4xl">
+          {/* Heading */}
+          <h1 className="mt-5 text-3xl font-extrabold tracking-tight text-[#064e3b] sm:text-4xl">
             Announcements
           </h1>
 
-          <div className="mx-auto mt-3 h-1 w-14 rounded-full bg-[#c69c45]" />
+          {/* Gold divider */}
+          <div className="mx-auto mt-4 flex items-center justify-center gap-2">
+            <div className="h-px w-8 bg-[#d4af37]/50" />
+            <div className="h-1 w-10 rounded-full bg-[#d4af37]" />
+            <div className="h-px w-8 bg-[#d4af37]/50" />
+          </div>
 
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-gray-500 sm:text-base">
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-slate-500 sm:text-base">
             Stay informed about the latest news, important notices,
             events and updates from Madarsa Raza-e-Gaus.
           </p>
         </header>
 
-        {/* Count */}
-        <div className="mb-6 flex items-center justify-between">
-          <p className="text-sm text-gray-500">
-            <span className="font-bold text-[#163832]">
-              {announcements.length}
-            </span>{" "}
-            {announcements.length === 1
-              ? "announcement"
-              : "announcements"}
-          </p>
+        {/* =====================================================
+            LIST HEADER
+        ====================================================== */}
 
-          <div className="flex items-center gap-2 text-xs text-gray-400">
-            <span className="h-2 w-2 rounded-full bg-[#c69c45]" />
+        <div className="mb-5 flex items-center justify-between">
+
+          <div className="flex items-center gap-2">
+
+            <FiFileText
+              className="text-[#064e3b]"
+              size={16}
+            />
+
+            <p className="text-sm text-slate-500">
+              <span className="font-bold text-[#064e3b]">
+                {announcements.length}
+              </span>{" "}
+              {announcements.length === 1
+                ? "announcement"
+                : "announcements"}
+            </p>
+          </div>
+
+          <div className="hidden items-center gap-2 text-xs font-medium text-slate-400 sm:flex">
+
+            <span className="h-1.5 w-1.5 rounded-full bg-[#d4af37]" />
+
             Latest updates
           </div>
         </div>
 
-        {/* Announcement list */}
+        {/* =====================================================
+            ANNOUNCEMENT LIST
+        ====================================================== */}
+
         <div className="space-y-4">
 
-          {announcements.map((announcement: any, index: number) => {
+          {announcements.map((announcement, index) => {
 
             const createdAt = getAnnouncementDate(announcement);
             const isNew = isNewAnnouncement(createdAt);
@@ -189,22 +292,26 @@ const Announcements = () => {
             return (
               <article
                 key={announcement.id}
-                className="group relative overflow-hidden rounded-2xl border border-[#dfeae6] bg-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#bfd5cd] hover:shadow-lg"
+                className="group relative overflow-hidden rounded-2xl border border-[#dfe9e5] bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#bdd5cc] hover:shadow-xl hover:shadow-emerald-900/5"
               >
 
                 {/* Left accent */}
-                <div className="absolute left-0 top-0 h-full w-1 bg-[#163832]" />
+                <div className="absolute left-0 top-0 h-full w-1 bg-[#064e3b] transition-all duration-300 group-hover:w-1.5" />
 
-                <div className="flex min-h-[90px] items-center gap-4 px-5 py-4 sm:px-6">
+                <div className="flex min-h-[94px] items-center gap-4 px-5 py-4 sm:px-6">
 
                   {/* Number */}
-                  <div className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#163832]/10 text-sm font-bold text-[#163832] sm:flex">
+                  <div className="hidden h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#ecfdf5] text-xs font-extrabold text-[#064e3b] sm:flex">
                     {String(index + 1).padStart(2, "0")}
                   </div>
 
-                  {/* Icon */}
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#163832] text-base text-white shadow-sm">
-                    📌
+                  {/* Announcement icon */}
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#064e3b] text-white shadow-md shadow-emerald-900/15 transition-transform duration-300 group-hover:scale-105">
+
+                    <FiInfo
+                      size={19}
+                      strokeWidth={2}
+                    />
                   </div>
 
                   {/* Content */}
@@ -212,76 +319,95 @@ const Announcements = () => {
 
                     <div className="flex flex-wrap items-center gap-2">
 
-                      <h2 className="truncate text-base font-bold text-gray-900 transition-colors group-hover:text-[#163832] sm:text-lg">
+                      <h2 className="truncate text-base font-bold text-slate-900 transition-colors duration-200 group-hover:text-[#064e3b] sm:text-lg">
                         {announcement.title}
                       </h2>
 
                       {isNew && (
-                        <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[#c69c45] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
+                        <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[#d4af37] px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-[0.1em] text-white shadow-sm">
+
                           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
+
                           NEW
                         </span>
                       )}
-
                     </div>
 
-                    <p className="mt-1 line-clamp-1 text-sm text-gray-500">
+                    <p className="mt-1.5 line-clamp-1 text-sm leading-5 text-slate-500">
                       {announcement.message}
                     </p>
-
                   </div>
 
-                  {/* Desktop date */}
+                  {/* Date */}
                   <div className="hidden shrink-0 text-right md:block">
 
-                    <p className="text-xs font-semibold text-[#163832]">
+                    <div className="flex items-center justify-end gap-1.5 text-xs font-semibold text-[#064e3b]">
+                      <FiCalendar size={12} />
                       {formatDate(createdAt)}
-                    </p>
+                    </div>
 
                     {formatTime(createdAt) && (
-                      <p className="mt-1 text-[11px] text-gray-400">
+                      <div className="mt-1 flex items-center justify-end gap-1 text-[11px] text-slate-400">
+                        <FiClock size={11} />
                         {formatTime(createdAt)}
-                      </p>
+                      </div>
                     )}
-
                   </div>
 
                   {/* Arrow */}
-                  <div className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-50 text-gray-400 transition-all duration-300 group-hover:bg-[#163832] group-hover:text-white sm:flex">
-                    →
+                  <div className="hidden h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-50 text-slate-400 transition-all duration-300 group-hover:bg-[#064e3b] group-hover:text-white sm:flex">
+                    <FiChevronRight size={17} />
                   </div>
-
                 </div>
 
-                {/* Mobile date */}
-                <div className="border-t border-gray-100 px-5 py-2.5 sm:px-6 md:hidden">
-                  <p className="text-[11px] text-gray-400">
-                    📅 {formatDate(createdAt)}
+                {/* Mobile metadata */}
+                <div className="flex items-center gap-3 border-t border-slate-100 px-5 py-2.5 sm:px-6 md:hidden">
 
-                    {formatTime(createdAt) && (
-                      <> • {formatTime(createdAt)}</>
-                    )}
-                  </p>
+                  <div className="flex items-center gap-1.5 text-[11px] text-slate-400">
+                    <FiCalendar size={11} />
+                    {formatDate(createdAt)}
+                  </div>
+
+                  {formatTime(createdAt) && (
+                    <>
+                      <span className="h-1 w-1 rounded-full bg-slate-300" />
+
+                      <div className="flex items-center gap-1 text-[11px] text-slate-400">
+                        <FiClock size={11} />
+                        {formatTime(createdAt)}
+                      </div>
+                    </>
+                  )}
                 </div>
 
               </article>
             );
           })}
-
         </div>
 
-        {/* Footer */}
-        <div className="mt-10 text-center">
+        {/* =====================================================
+            FOOTER
+        ====================================================== */}
+
+        <div className="mt-12 text-center">
+
           <div className="mx-auto flex max-w-xl items-center gap-4">
+
             <div className="h-px flex-1 bg-[#dce6e2]" />
 
-            <span className="text-[#c69c45]">✦</span>
+            <div className="flex h-7 w-7 items-center justify-center rounded-full border border-[#d4af37]/30 bg-white text-[#d4af37]">
+              <span className="text-xs">✦</span>
+            </div>
 
             <div className="h-px flex-1 bg-[#dce6e2]" />
           </div>
 
-          <p className="mt-4 text-[10px] font-medium tracking-[0.15em] text-gray-400 sm:text-xs">
-            MADARSA RAZA-E-GAUS • BISHUNPURA, GOPALGANJ, BIHAR
+          <p className="mt-5 text-[10px] font-semibold tracking-[0.18em] text-slate-400 sm:text-xs">
+            MADARSA RAZA-E-GAUS
+          </p>
+
+          <p className="mt-1 text-[9px] tracking-[0.12em] text-slate-400 sm:text-[10px]">
+            BISHUNPURA • GOPALGANJ • BIHAR
           </p>
         </div>
 
@@ -291,4 +417,3 @@ const Announcements = () => {
 };
 
 export default Announcements;
-

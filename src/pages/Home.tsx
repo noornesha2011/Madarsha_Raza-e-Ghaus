@@ -1,320 +1,648 @@
+
 import { Link } from "react-router-dom";
-import { FaMosque } from "react-icons/fa";
+import {
+  FaArrowRight,
+  FaCheck,
+  FaHeart,
+  FaMosque,
+  FaUsers,
+} from "react-icons/fa6";
+import {
+  FiArrowUpRight,
+  FiBookOpen,
+  FiHeart,
+  FiShield,
+  FiTrendingUp,
+} from "react-icons/fi";
+
 import UrduName from "../components/ui/UrduName";
+
 const Home = () => {
-    return (
-        <div className="bg-[#FAF6EC]">
+  return (
+    <main className="min-h-screen overflow-hidden bg-[#FAF6EC] text-slate-900">
 
-            {/* ================= HERO SECTION ================= */}
-            <section className="relative overflow-hidden bg-emerald-950">
-                {/* Decorative background */}
-                <div className="absolute -right-32 -top-32 h-80 w-80 rounded-full bg-emerald-800/40 blur-3xl" />
-                <div className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-amber-500/10 blur-3xl" />
+      {/* =========================================================
+          HERO
+      ========================================================== */}
 
-                <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 py-20 md:grid-cols-2 md:py-28">
+      <section className="relative overflow-hidden bg-emerald-950">
 
-                    {/* Hero Content */}
+        {/* Subtle pattern */}
+        <div className="pointer-events-none absolute inset-0 opacity-[0.035]">
+          <div
+            className="h-full w-full"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+              backgroundSize: "30px 30px",
+            }}
+          />
+        </div>
+
+        {/* Decorative glow */}
+        <div className="pointer-events-none absolute -right-40 -top-40 h-96 w-96 rounded-full bg-emerald-700/30 blur-3xl" />
+
+        <div className="pointer-events-none absolute -bottom-40 -left-40 h-96 w-96 rounded-full bg-amber-500/10 blur-3xl" />
+
+        <div className="relative mx-auto max-w-7xl px-6 py-16 sm:py-20 lg:px-8 lg:py-24">
+
+          <div className="grid items-center gap-14 lg:grid-cols-[1.15fr_0.85fr]">
+
+            {/* LEFT */}
+            <div className="animate-[fadeUp_.7s_ease-out]">
+
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 rounded-full border border-amber-400/25 bg-amber-400/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.15em] text-amber-300 backdrop-blur-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                Serving Our Community
+              </div>
+
+              {/* Heading */}
+              <h1 className="mt-7 max-w-3xl text-4xl font-black leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-6xl">
+                Madarsa
+                <span className="block text-emerald-200">
+                  Raza-E-Gaus
+                </span>
+              </h1>
+
+              {/* Gold line */}
+              <div className="mt-6 flex items-center gap-3">
+                <div className="h-1 w-16 rounded-full bg-amber-400" />
+                <div className="h-px w-16 bg-amber-400/30" />
+              </div>
+
+              {/* Description */}
+              <p className="mt-6 max-w-2xl text-base leading-7 text-emerald-100/75 sm:text-lg">
+                Supporting Islamic education, community development
+                and meaningful service through collective effort,
+                trust and transparency.
+              </p>
+
+              {/* Urdu */}
+              <div className="mt-7">
+                <UrduName />
+              </div>
+
+              {/* CTA */}
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+
+                <Link
+                  to="/donate"
+                  className="group inline-flex items-center justify-center gap-3 rounded-xl bg-amber-400 px-6 py-3.5 text-sm font-bold text-emerald-950 shadow-lg shadow-black/10 transition-all duration-300 hover:-translate-y-0.5 hover:bg-amber-300 hover:shadow-xl"
+                >
+                  <FiHeart size={17} />
+
+                  Support Our Mission
+
+                  <FaArrowRight
+                    size={13}
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </Link>
+
+                <Link
+                  to="/register"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.06] px-6 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
+                >
+                  Become a Member
+                  <FiArrowUpRight size={16} />
+                </Link>
+
+              </div>
+
+            </div>
+
+            {/* RIGHT VISUAL */}
+            <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+
+              {/* Outer circle */}
+              <div className="relative mx-auto aspect-square max-w-[390px]">
+
+                <div className="absolute inset-5 rounded-full border border-amber-400/20" />
+
+                <div className="absolute inset-10 rounded-full border border-amber-400/10" />
+
+                {/* Main circle */}
+                <div className="absolute inset-14 flex items-center justify-center rounded-full bg-emerald-900 shadow-2xl shadow-black/20">
+
+                  <div className="text-center">
+
+                    <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-[28px] bg-amber-400 text-emerald-950 shadow-xl">
+                      <FaMosque size={48} />
+                    </div>
+
+                    <p className="mt-6 text-sm font-bold tracking-[0.2em] text-amber-300">
+                      EDUCATION
+                    </p>
+
+                    <p className="mt-1 text-sm font-medium text-emerald-200/70">
+                      FAITH • SERVICE • COMMUNITY
+                    </p>
+
+                  </div>
+
+                </div>
+
+                {/* Floating stat */}
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl backdrop-blur-md">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-400 text-emerald-950">
+                      <FaUsers size={15} />
+                    </div>
+
                     <div>
-                        <p className="mb-4 inline-block rounded-full border border-amber-400/30 bg-amber-400/10 px-4 py-2 text-sm font-medium text-amber-300">
-                            Islamic Education & Community Development
-                        </p>
+                      <p className="text-xs font-bold text-white">
+                        Community
+                      </p>
+                      <p className="text-[10px] text-emerald-100/60">
+                        Growing together
+                      </p>
+                    </div>
+                  </div>
+                </div>
 
-                        <h1
-                            dir="rtl"
-                            className="hidden"
-                        > مدرسہ رضائے غوث
-                        </h1>
-
-                        <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
-                            <UrduName />
-                        </h1>
-
-                        <h2 className="mt-3 text-2xl font-semibold text-emerald-200 sm:text-3xl">
-                            Madarsa Raza-E-Gaus
-                        </h2>
-
-                        <p className="mt-6 max-w-xl text-lg leading-8 text-emerald-100/80">
-                            Help us support Islamic education, provide better facilities,
-                            and build a stronger future for our students and community.
-                        </p>
-
-                        <div className="mt-8 flex flex-wrap gap-4">
-                            <Link
-                                to="/donate"
-                                className="rounded-lg bg-amber-500 px-6 py-3 font-semibold text-emerald-950 shadow-lg transition hover:bg-amber-400"
-                            >
-                                Donate Now
-                            </Link>
-
-                            <Link
-                                to="/register"
-                                className="rounded-lg border border-emerald-400 px-6 py-3 font-semibold text-white transition hover:bg-emerald-800"
-                            >
-                                Become a Donor
-                            </Link>
-                        </div>
+                {/* Floating trust */}
+                <div className="absolute bottom-8 right-0 rounded-2xl border border-white/10 bg-white/10 px-4 py-3 shadow-xl backdrop-blur-md">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500 text-white">
+                      <FiShield size={16} />
                     </div>
 
-                    {/* Hero Visual */}
-                    <div className="flex justify-center md:justify-end">
-                        <div className="flex h-72 w-72 items-center justify-center rounded-full border border-amber-400/30 bg-emerald-900 shadow-2xl sm:h-80 sm:w-80">
-                            <div className=" text-center">
-                                <div className="flex justify-center">
-                                    <FaMosque
-                                        color="green"
-                                        size={90}
-                                    />
-                                </div>
-                                <p
-                                    dir="rtl"
-                                    className="mt-4 text-2xl font-bold text-amber-300"
-                                >
-                                    علم و خدمت
-                                </p>
-
-                                <p className="mt-1 text-sm text-emerald-200">
-                                    Knowledge • Faith • Service
-                                </p>
-                            </div>
-                        </div>
+                    <div>
+                      <p className="text-xs font-bold text-white">
+                        Transparent
+                      </p>
+                      <p className="text-[10px] text-emerald-100/60">
+                        Built on trust
+                      </p>
                     </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        {/* Bottom transition */}
+        <div className="absolute bottom-0 left-0 right-0 h-8 rounded-t-[50%] bg-[#FAF6EC]" />
+      </section>
+
+
+      {/* =========================================================
+          VALUES
+      ========================================================== */}
+
+      <section className="px-6 py-16 sm:py-20 lg:px-8">
+
+        <div className="mx-auto max-w-7xl">
+
+          {/* Heading */}
+          <div className="mx-auto max-w-2xl text-center">
+
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-600">
+              What We Stand For
+            </p>
+
+            <h2 className="mt-3 text-3xl font-black tracking-tight text-emerald-950 sm:text-4xl">
+              Faith. Education. Community.
+            </h2>
+
+            <p className="mt-4 text-sm leading-6 text-slate-500 sm:text-base">
+              Our work is guided by a simple commitment to
+              education, service and responsible community building.
+            </p>
+
+          </div>
+
+          {/* Cards */}
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+
+            {/* Education */}
+            <article className="group rounded-[24px] border border-[#e8e1d2] bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-950/5">
+
+              <div className="flex items-center justify-between">
+
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-800 transition-transform duration-300 group-hover:scale-105">
+                  <FiBookOpen size={22} />
+                </div>
+
+                <FiArrowUpRight
+                  className="text-slate-300 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-emerald-700"
+                  size={20}
+                />
+
+              </div>
+
+              <h3 className="mt-6 text-xl font-bold text-emerald-950">
+                Islamic Education
+              </h3>
+
+              <p className="mt-3 text-sm leading-6 text-slate-500">
+                Supporting meaningful religious education and
+                learning opportunities for our community.
+              </p>
+
+              <div className="mt-6 h-px bg-[#eee8da]" />
+
+              <p className="mt-4 text-xs font-bold uppercase tracking-wider text-amber-600">
+                Knowledge & Growth
+              </p>
+
+            </article>
+
+            {/* Community */}
+            <article className="group rounded-[24px] border border-[#e8e1d2] bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-950/5">
+
+              <div className="flex items-center justify-between">
+
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-700 transition-transform duration-300 group-hover:scale-105">
+                  <FaUsers size={21} />
+                </div>
+
+                <FiArrowUpRight
+                  className="text-slate-300 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-emerald-700"
+                  size={20}
+                />
+
+              </div>
+
+              <h3 className="mt-6 text-xl font-bold text-emerald-950">
+                Community
+              </h3>
+
+              <p className="mt-3 text-sm leading-6 text-slate-500">
+                Bringing people together through shared values,
+                cooperation and collective responsibility.
+              </p>
+
+              <div className="mt-6 h-px bg-[#eee8da]" />
+
+              <p className="mt-4 text-xs font-bold uppercase tracking-wider text-amber-600">
+                Unity & Service
+              </p>
+
+            </article>
+
+            {/* Trust */}
+            <article className="group rounded-[24px] border border-[#e8e1d2] bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-950/5">
+
+              <div className="flex items-center justify-between">
+
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-800 transition-transform duration-300 group-hover:scale-105">
+                  <FiShield size={22} />
+                </div>
+
+                <FiArrowUpRight
+                  className="text-slate-300 transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-emerald-700"
+                  size={20}
+                />
+
+              </div>
+
+              <h3 className="mt-6 text-xl font-bold text-emerald-950">
+                Transparency
+              </h3>
+
+              <p className="mt-3 text-sm leading-6 text-slate-500">
+                Building trust through responsible management,
+                accountability and clear financial information.
+              </p>
+
+              <div className="mt-6 h-px bg-[#eee8da]" />
+
+              <p className="mt-4 text-xs font-bold uppercase tracking-wider text-amber-600">
+                Trust & Accountability
+              </p>
+
+            </article>
+
+          </div>
+        </div>
+      </section>
+
+
+      {/* =========================================================
+          ABOUT / PURPOSE
+      ========================================================== */}
+
+      <section className="border-y border-[#e7dfcf] bg-white px-6 py-16 sm:py-20 lg:px-8">
+
+        <div className="mx-auto max-w-7xl">
+
+          <div className="grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr]">
+
+            {/* Visual */}
+            <div className="relative">
+
+              <div className="relative overflow-hidden rounded-[28px] bg-emerald-950 p-8 sm:p-10">
+
+                <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-emerald-800/40 blur-2xl" />
+
+                <div className="relative">
+
+                  <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-amber-400 text-emerald-950">
+                    <FaMosque size={30} />
+                  </div>
+
+                  <p
+                    dir="rtl"
+                    className="mt-8 text-3xl font-semibold text-amber-300"
+                  >
+                    مدرسہ رضائے غوث
+                  </p>
+
+                  <p className="mt-4 text-sm leading-7 text-emerald-100/70">
+                    A community built around education,
+                    faith and service.
+                  </p>
+
+                  <div className="mt-8 grid grid-cols-2 gap-3">
+
+                    <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                      <FiBookOpen
+                        className="text-amber-300"
+                        size={20}
+                      />
+
+                      <p className="mt-3 text-xs font-semibold text-white">
+                        Education
+                      </p>
+                    </div>
+
+                    <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                      <FiHeart
+                        className="text-amber-300"
+                        size={20}
+                      />
+
+                      <p className="mt-3 text-xs font-semibold text-white">
+                        Service
+                      </p>
+                    </div>
+
+                  </div>
 
                 </div>
-            </section>
+              </div>
 
+              {/* Gold accent */}
+              <div className="absolute -bottom-3 -right-3 h-16 w-16 rounded-br-[24px] border-b-2 border-r-2 border-amber-500" />
 
-            {/* ================= STATS ================= */}
-            <section className="border-b border-emerald-100 bg-white">
-                <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-emerald-100 md:grid-cols-4">
+            </div>
 
-                    <div className="px-6 py-8 text-center">
-                        <p className="text-3xl font-bold text-emerald-800">1000+</p>
-                        <p className="mt-1 text-sm text-gray-500">Community Members</p>
+            {/* Content */}
+            <div>
+
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-amber-600">
+                About Our Institution
+              </p>
+
+              <h2 className="mt-3 text-3xl font-black tracking-tight text-emerald-950 sm:text-4xl">
+                Growing through faith,
+                <span className="block text-emerald-700">
+                  learning and service.
+                </span>
+              </h2>
+
+              <p className="mt-5 text-sm leading-7 text-slate-500 sm:text-base">
+                Madarsa Raza-E-Gaus is committed to supporting
+                Islamic education and serving the needs of our
+                local community.
+              </p>
+
+              <div className="mt-7 space-y-4">
+
+                {[
+                  "Supporting Islamic learning and education",
+                  "Encouraging community participation",
+                  "Maintaining responsible financial practices",
+                  "Creating opportunities for collective service",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-start gap-3"
+                  >
+                    <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                      <FaCheck size={10} />
                     </div>
 
-                    <div className="px-6 py-8 text-center">
-                        <p className="text-3xl font-bold text-emerald-800">20+</p>
-                        <p className="mt-1 text-sm text-gray-500">Students</p>
-                    </div>
-
-                    <div className="px-6 py-8 text-center">
-                        <p className="text-3xl font-bold text-emerald-800">6+</p>
-                        <p className="mt-1 text-sm text-gray-500">Years of Service</p>
-                    </div>
-
-                    <div className="px-6 py-8 text-center">
-                        <p className="text-3xl font-bold text-emerald-800">100%</p>
-                        <p className="mt-1 text-sm text-gray-500">Transparent Donations</p>
-                    </div>
-
-                </div>
-            </section>
-
-
-            {/* ================= ABOUT ================= */}
-            <section className="mx-auto max-w-7xl px-6 py-20">
-
-                <div className="mx-auto max-w-3xl text-center">
-                    <p className="text-sm font-semibold uppercase tracking-widest text-amber-600">
-                        About Us
+                    <p className="text-sm text-slate-600">
+                      {item}
                     </p>
+                  </div>
+                ))}
 
-                    <h2 className="mt-3 text-3xl font-bold text-emerald-950 sm:text-4xl">
-                        Serving Through Knowledge & Faith
-                    </h2>
+              </div>
 
-                    <p className="mt-5 leading-7 text-gray-600">
-                        Madarsa Raza-e-Gaus is committed to providing Islamic education
-                        and supporting the educational and spiritual development of our
-                        community.
-                    </p>
+              <div className="mt-8">
+                <Link
+                  to="/donate"
+                  className="group inline-flex items-center gap-2 text-sm font-bold text-emerald-800"
+                >
+                  Support our work
+
+                  <FaArrowRight
+                    size={12}
+                    className="transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </Link>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+
+      {/* =========================================================
+          TRANSPARENCY
+      ========================================================== */}
+
+      <section className="px-6 py-16 sm:py-20 lg:px-8">
+
+        <div className="mx-auto max-w-7xl">
+
+          <div className="overflow-hidden rounded-[28px] bg-emerald-950">
+
+            <div className="grid lg:grid-cols-[1fr_0.8fr]">
+
+              {/* Text */}
+              <div className="p-8 sm:p-10 lg:p-14">
+
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-400 text-emerald-950">
+                  <FiTrendingUp size={22} />
                 </div>
 
-                <div className="mt-12 grid gap-6 md:grid-cols-3">
+                <p className="mt-7 text-xs font-bold uppercase tracking-[0.2em] text-amber-300">
+                  Built on Trust
+                </p>
 
-                    {/* Card 1 */}
-                    <div className="rounded-2xl border border-emerald-100 bg-emerald-50/50 p-7 transition hover:-translate-y-1 hover:shadow-lg">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-700 text-2xl text-white">
-                            📖
-                        </div>
+                <h2 className="mt-3 text-3xl font-black text-white sm:text-4xl">
+                  Transparency matters.
+                </h2>
 
-                        <h3 className="mt-5 text-xl font-bold text-emerald-950">
-                            Islamic Education
-                        </h3>
+                <p className="mt-5 max-w-xl text-sm leading-7 text-emerald-100/70">
+                  We believe community contributions should be
+                  handled responsibly. Our platform is designed
+                  to make donations, collections and financial
+                  information easier to manage and understand.
+                </p>
 
-                        <p className="mt-3 leading-6 text-gray-600">
-                            Supporting quality Islamic education and creating a better
-                            learning environment for students.
-                        </p>
+                <div className="mt-8 grid gap-3 sm:grid-cols-2">
+
+                  <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <FiShield className="text-amber-300" />
+
+                    <span className="text-xs font-semibold text-white">
+                      Responsible management
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4">
+                    <FiTrendingUp className="text-amber-300" />
+
+                    <span className="text-xs font-semibold text-white">
+                      Clear financial records
+                    </span>
+                  </div>
+
+                </div>
+
+              </div>
+
+              {/* Right visual */}
+              <div className="relative hidden min-h-[360px] overflow-hidden bg-emerald-900 lg:block">
+
+                <div className="absolute inset-0 flex items-center justify-center">
+
+                  <div className="relative flex h-64 w-64 items-center justify-center rounded-full border border-amber-400/20">
+
+                    <div className="absolute inset-8 rounded-full border border-amber-400/10" />
+
+                    <div className="text-center">
+
+                      <FiShield
+                        size={54}
+                        className="mx-auto text-amber-300"
+                      />
+
+                      <p className="mt-5 text-lg font-bold text-white">
+                        Trust
+                      </p>
+
+                      <p className="mt-1 text-xs text-emerald-100/50">
+                        Transparency & accountability
+                      </p>
+
                     </div>
 
-                    {/* Card 2 */}
-                    <div className="rounded-2xl border border-emerald-100 bg-emerald-50/50 p-7 transition hover:-translate-y-1 hover:shadow-lg">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-700 text-2xl text-white">
-                            🕌
-                        </div>
-
-                        <h3 className="mt-5 text-xl font-bold text-emerald-950">
-                            Better Facilities
-                        </h3>
-
-                        <p className="mt-3 leading-6 text-gray-600">
-                            Helping improve infrastructure, educational resources, and
-                            facilities for our madrasa.
-                        </p>
-                    </div>
-
-                    {/* Card 3 */}
-                    <div className="rounded-2xl border border-emerald-100 bg-emerald-50/50 p-7 transition hover:-translate-y-1 hover:shadow-lg">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-700 text-2xl text-white">
-                            🤝
-                        </div>
-
-                        <h3 className="mt-5 text-xl font-bold text-emerald-950">
-                            Community Support
-                        </h3>
-
-                        <p className="mt-3 leading-6 text-gray-600">
-                            Bringing donors and community members together to support a
-                            meaningful cause.
-                        </p>
-                    </div>
+                  </div>
 
                 </div>
-            </section>
 
+              </div>
 
-            {/* ================= DONATION CTA ================= */}
-            <section className="bg-emerald-900">
-                <div className="mx-auto max-w-7xl px-6 py-16 text-center">
-
-                    <p className="text-sm font-semibold uppercase tracking-widest text-amber-400">
-                        Support Our Mission
-                    </p>
-
-                    <h2 className="mt-3 text-3xl font-bold text-white sm:text-4xl">
-                        Every Contribution Makes a Difference
-                    </h2>
-
-                    <p className="mx-auto mt-4 max-w-2xl leading-7 text-emerald-100/75">
-                        Your contribution can help provide education, facilities, and
-                        essential support for the madrasa and its students.
-                    </p>
-
-                    <Link
-                        to="/donate"
-                        className="mt-8 inline-block rounded-lg bg-amber-500 px-7 py-3 font-bold text-emerald-950 shadow-lg transition hover:bg-amber-400"
-                    >
-                        Make a Donation
-                    </Link>
-
-                </div>
-            </section>
-
-
-            {/* ================= TRANSPARENCY ================= */}
-            <section className="bg-emerald-50">
-                <div className="mx-auto max-w-7xl px-6 py-16">
-
-                    <div className="grid items-center gap-10 md:grid-cols-2">
-
-                        <div>
-                            <p className="text-sm font-semibold uppercase tracking-widest text-amber-600">
-                                Transparency
-                            </p>
-
-                            <h2 className="mt-3 text-3xl font-bold text-emerald-950">
-                                Your Trust Matters
-                            </h2>
-
-                            <p className="mt-5 leading-7 text-gray-600">
-                                We believe every contribution should be handled responsibly.
-                                Our fundraising system is designed to help donors track their
-                                contributions and understand how funds are being used.
-                            </p>
-                        </div>
-
-                        <div className="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-emerald-100">
-
-                            <div className="flex items-start gap-4">
-                                <div className="text-2xl">✓</div>
-
-                                <div>
-                                    <h3 className="font-bold text-emerald-900">
-                                        Donation Records
-                                    </h3>
-
-                                    <p className="mt-1 text-sm text-gray-500">
-                                        Keep track of your donation history.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="my-6 border-t border-gray-100" />
-
-                            <div className="flex items-start gap-4">
-                                <div className="text-2xl">✓</div>
-
-                                <div>
-                                    <h3 className="font-bold text-emerald-900">
-                                        Monthly Contributions
-                                    </h3>
-
-                                    <p className="mt-1 text-sm text-gray-500">
-                                        Monitor monthly donor contributions and dues.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="my-6 border-t border-gray-100" />
-
-                            <div className="flex items-start gap-4">
-                                <div className="text-2xl">✓</div>
-
-                                <div>
-                                    <h3 className="font-bold text-emerald-900">
-                                        Digital Receipts
-                                    </h3>
-
-                                    <p className="mt-1 text-sm text-gray-500">
-                                        Receive records for successful donations.
-                                    </p>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-            {/* ================= FINAL CTA ================= */}
-            <section className="bg-white">
-                <div className="mx-auto max-w-4xl px-6 py-20 text-center">
-
-                    <h2
-                        dir="rtl"
-                        className="text-3xl font-bold text-emerald-900"
-                    >
-                        جزاک اللہ خیراً
-                    </h2>
-
-                    <p className="mt-3 text-gray-600">
-                        May Allah reward you for your support and generosity.
-                    </p>
-
-                    <Link
-                        to="/donate"
-                        className="mt-7 inline-block rounded-lg bg-emerald-700 px-7 py-3 font-semibold text-white shadow-md transition hover:bg-emerald-800"
-                    >
-                        Donate Now
-                    </Link>
-
-                </div>
-            </section>
+            </div>
+          </div>
 
         </div>
-    );
+      </section>
+
+
+      {/* =========================================================
+          DONATION CTA
+      ========================================================== */}
+
+      <section className="bg-[#E9E0C9] px-6 py-16 sm:py-20 lg:px-8">
+
+        <div className="mx-auto max-w-4xl text-center">
+
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-950 text-amber-300">
+            <FaHeart size={23} />
+          </div>
+
+          <p className="mt-6 text-xs font-bold uppercase tracking-[0.2em] text-amber-700">
+            Make a Difference
+          </p>
+
+          <h2 className="mt-3 text-3xl font-black tracking-tight text-emerald-950 sm:text-4xl">
+            Your contribution can help
+            <span className="block text-emerald-700">
+              build a better future.
+            </span>
+          </h2>
+
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-600">
+            Every contribution, big or small, can support education,
+            community activities and the continued development of
+            Madarsa Raza-E-Gaus.
+          </p>
+
+          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+
+            <Link
+              to="/donate"
+              className="group inline-flex items-center justify-center gap-3 rounded-xl bg-emerald-950 px-7 py-3.5 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-emerald-900 hover:shadow-xl"
+            >
+              <FiHeart size={17} />
+
+              Donate Now
+
+              <FaArrowRight
+                size={12}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </Link>
+
+            <Link
+              to="/register"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-900/15 bg-white/50 px-7 py-3.5 text-sm font-bold text-emerald-950 transition-all duration-300 hover:bg-white"
+            >
+              Join Our Community
+              <FiArrowUpRight size={16} />
+            </Link>
+
+          </div>
+
+        </div>
+      </section>
+
+
+      {/* =========================================================
+          FOOTER NOTE
+      ========================================================== */}
+
+      <section className="bg-emerald-950 px-6 py-8">
+
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left">
+
+          <div>
+            <p className="text-sm font-bold text-white">
+              Madarsa Raza-E-Gaus
+            </p>
+
+            <p className="mt-1 text-xs text-emerald-100/50">
+              Bishunpura, Gopalganj, Bihar
+            </p>
+          </div>
+
+          <p
+            dir="rtl"
+            className="text-lg text-amber-300"
+          >
+            مدرسہ رضائے غوث
+          </p>
+
+        </div>
+
+      </section>
+
+    </main>
+  );
 };
 
 export default Home;
